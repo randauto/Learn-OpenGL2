@@ -11,15 +11,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LearningOpenGL">
-        <activity android:name="com.g3.practiceopengl.OneOpenGlActivity"></activity>
-        <activity android:name="com.g3.practiceopengl.CameraSurfaceViewShowActivity">
+        <activity android:name=".lesson1.LessonOneActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".lesson3.LessonThreeActivity" />
+        <activity android:name="com.g3.practiceopengl.OneOpenGlActivity" />
+        <activity android:name="com.g3.practiceopengl.CameraSurfaceViewShowActivity">
+
+        </activity>
+        <activity android:name=".MainActivity" />
+
+        <service
+            android:name=".wallpaper.render.LessonThreeWallpaperService"
+            android:label="@string/lesson_three_wallpaper_1"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/wallpaper" />
+        </service>
     </application>
 
 </manifest>

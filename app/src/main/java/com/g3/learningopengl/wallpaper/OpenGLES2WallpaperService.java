@@ -41,5 +41,5 @@ public abstract class OpenGLES2WallpaperService extends GLWallpaperService {
         }
     }
 
-    abstract GLSurfaceView.Renderer getNewRenderer();
+    public abstract GLSurfaceView.Renderer getNewRenderer();
 }

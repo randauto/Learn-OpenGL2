@@ -2,11 +2,14 @@ package com.g3.learningopengl.utils
 
 import android.content.Context
 import android.content.res.Resources
+import android.util.Log
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 
 object TextResourceReader {
+    private val TAG = "TextResourceReader: "
+
     fun readTextFileFromResource(context: Context, resourceId: Int): String {
         val body = StringBuilder()
         try {
@@ -32,6 +35,23 @@ object TextResourceReader {
         }
 
         return body.toString()
+    }
+
+    private fun loadStringFromAssetFile(myContext: Context, filePath: String): String? {
+        val shaderSource = java.lang.StringBuilder()
+        return try {
+            val reader = BufferedReader(InputStreamReader(myContext.assets.open(filePath)))
+            var line: String?
+            while (reader.readLine().also { line = it } != null) {
+                shaderSource.append(line).append("\n")
+            }
+            reader.close()
+            shaderSource.toString()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Log.e(TAG, "Could not load shader file")
+            null
+        }
     }
 
 }
