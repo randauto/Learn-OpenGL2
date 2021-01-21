@@ -11,16 +11,20 @@ import java.nio.FloatBuffer
 const val COORDS_PER_VERTEX = 3
 var triangleCoords = floatArrayOf(
     // in counterclockwise order:
-    0.0f, 0.622008459f, 0.0f,      // top
-    -0.5f, -0.311004243f, 0.0f,    // bottom left
-    0.5f, -0.311004243f, 0.0f      // bottom right
+    0.0f, 0.5f, 0.0f,      // top left
+    -0.5f, -0.5f, 0.0f,    // bottom left
+    0.5f, -0.5f, 0.0f      // bottom right
+//    0.5f, 0.5f, 0.0f,      // top right
 )
 
 class Triange(context: Context) {
     // Set color with red, green, blue and alpha (opacity) values
-    val color = floatArrayOf(0.63671875f, 0.76953125f, 0.22265625f, 1.0f)
+    val color = floatArrayOf(0.5f, 0.6f, 0.7f, 1.0f)
 
     private var mProgram: Int
+
+    // Use to access and set the view transformation
+    private var vPMatrixHandle: Int = 0
 
     private val vertexShaderCode =
         "attribute vec4 vPosition;" +
@@ -70,7 +74,7 @@ class Triange(context: Context) {
     private val vertexCount: Int = triangleCoords.size / COORDS_PER_VERTEX
     private val vertexStride: Int = COORDS_PER_VERTEX * 4 // 4 bytes per vertex
 
-    fun draw() {
+    fun draw(vPMatrix: FloatArray) {
         GLES20.glUseProgram(mProgram)
         positionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition").also {
             GLES20.glEnableVertexAttribArray(it)
@@ -82,6 +86,11 @@ class Triange(context: Context) {
                 vertexStride,
                 vertexBuffer
             )
+            // get handle to shape's transformation matrix
+            vPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix")
+
+            // Pass the projection and view transformation to the shader
+            GLES20.glUniformMatrix4fv(vPMatrixHandle, 1, false, vPMatrix, 0)
 
             mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor").also {
                 GLES20.glUniform4fv(mColorHandle, 1, color, 0)
