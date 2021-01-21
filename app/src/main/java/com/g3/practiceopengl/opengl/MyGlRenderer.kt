@@ -1,10 +1,15 @@
 package com.g3.practiceopengl.opengl
 
+import android.content.Context
 import android.opengl.GLSurfaceView
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class MyGlRenderer : GLSurfaceView.Renderer {
+class MyGlRenderer() : GLSurfaceView.Renderer {
+    var context: Context? = null
+    constructor(context: Context) : this() {
+        this.context = context
+    }
 
     private lateinit var mTriange: Triange
 
@@ -13,7 +18,7 @@ class MyGlRenderer : GLSurfaceView.Renderer {
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         // initialize a triangle
-        mTriange = Triange()
+        mTriange = Triange(context!!)
         // initialize a square
 //        mSquare = Square2()
     }

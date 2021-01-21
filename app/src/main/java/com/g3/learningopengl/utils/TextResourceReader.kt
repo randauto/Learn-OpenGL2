@@ -37,7 +37,7 @@ object TextResourceReader {
         return body.toString()
     }
 
-    private fun loadStringFromAssetFile(myContext: Context, filePath: String): String? {
+    fun loadStringFromAssetFile(myContext: Context, filePath: String): String? {
         val shaderSource = java.lang.StringBuilder()
         return try {
             val reader = BufferedReader(InputStreamReader(myContext.assets.open(filePath)))

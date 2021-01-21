@@ -1,6 +1,9 @@
 package com.g3.practiceopengl.opengl
 
+import android.content.Context
 import android.opengl.GLES20
+import com.g3.learningopengl.R
+import com.g3.learningopengl.utils.TextResourceReader
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
@@ -13,7 +16,7 @@ var triangleCoords = floatArrayOf(
     0.5f, -0.311004243f, 0.0f      // bottom right
 )
 
-class Triange {
+class Triange(context: Context) {
     // Set color with red, green, blue and alpha (opacity) values
     val color = floatArrayOf(0.63671875f, 0.76953125f, 0.22265625f, 1.0f)
 
@@ -33,14 +36,32 @@ class Triange {
                 "}"
 
     init {
-        val vertexShader: Int = loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode)
-        val fragmentShader: Int = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode)
+        var vertexShaderSource =
+            context?.let {
+                TextResourceReader.readTextFileFromResource(
+                    it,
+                    R.raw.simple_vertex_shader
+                )
+            }
+
+        var fragmentShaderSource =
+            context?.let {
+                TextResourceReader.readTextFileFromResource(
+                    it,
+                    R.raw.simple_fragment_shader
+                )
+            }
+
+        val vertexShader: Int = loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderSource)
+        val fragmentShader: Int = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderSource)
 
         mProgram = GLES20.glCreateProgram().also {
             GLES20.glAttachShader(it, vertexShader)
             GLES20.glAttachShader(it, fragmentShader)
             GLES20.glLinkProgram(it)
         }
+
+
     }
 
     private var positionHandle: Int = 0

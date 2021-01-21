@@ -36,7 +36,7 @@ public class LessonOneActivity extends AppCompatActivity {
             mGLSurfaceView.setEGLContextClientVersion(2);
             // Set the renderer to our demo renderer, defined below.
 //            mGLSurfaceView.setRenderer(new LessonOneRenderer());
-            mGLSurfaceView.setRenderer(new MyGlRenderer());
+            mGLSurfaceView.setRenderer(new MyGlRenderer(this));
             mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         } else {
             // This is where you could create an OpenGL ES 1.x compatible
